@@ -5,23 +5,23 @@ from io import BytesIO
 
 st.set_page_config(page_title="Application Data sweeper", layout="wide")
 
-
 st.markdown("""
-<h1 style='color:yellow; font-family:Arial;'>Streamlit Data sweeper app 🗑️🛠️</h1>
-<h4 style='color:yellow; font-family:mono; font-weight:normal;'>Clean, filter, and download your data easily 🧹📊
+<h1 style='color:black; font-family:Arial;'>Streamlit Data sweeper app 🗑️🛠️</h1>
+<h4 style='color:gray; font-family:mono; font-weight:bold;'>Clean, filter, and download your data easily 📀📊
 </h4>   """, unsafe_allow_html=True)
 
 # custom css
 st.markdown(
     """
             <style>.stApp{
-            background-color:black;
-            color:white;
+            background-color:;
+            color:;
         
             }
-            .h1{}
+            
             .features-heading {
-            color: white;
+            color: gray;
+            font-family:poppins;
             font-size: 40px;
             margin-top:16px;
             margin-bottom:10px;
@@ -29,7 +29,7 @@ st.markdown(
             }
 
             .features-text {
-            color: white; 
+            color: gray; 
             }
 
              .stFileUploader label {
@@ -44,15 +44,21 @@ st.markdown(
             }
 
             .cleaning{
-            color:white;
+            color:#4169E1;
             font-family: 'Montserrat', sans-serif;
            font-size:32px;
+           font-weight:bold;
         
+            }
+
+            .box-label{
+            color:white;
             }
             </style>
             """,
     unsafe_allow_html=True,
 )
+
 st.markdown(
     """
      <div class="features-heading">   
@@ -99,11 +105,13 @@ if upload_Files:
     st.markdown(
         """<div class="cleaning">   
    🎫Data cleanings here!"
+ 
  </div>""",
         unsafe_allow_html=True,
     )
-
+    
     if st.checkbox(f"clean data for {file.name}"):
+       
         col1, col2 = st.columns(2)
 
         with col1:
@@ -123,9 +131,7 @@ if upload_Files:
           st.success("✅ Missing values filled!")
           st.dataframe(df.head())
 
-        st.write("missing values")
-
-        st.markdown("<h3 style='color:#1E90FF; font-family:Arial;'>📊 Select columns</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color:#4169E1; font-family:Arial;'>📊 Select columns</h3>", unsafe_allow_html=True)
 
         columns = st.multiselect(
             f"choose columns for {file.name}", df.columns, default=df.columns
@@ -133,20 +139,20 @@ if upload_Files:
 
         df = df[columns]
 
-        st.markdown("<h3 style='color:#1E90FF; font-family:Arial;'>📊 Data Visualization</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color:#4169E1; font-family:Arial;'>📊 Data Visualization</h3>", unsafe_allow_html=True)
 
         if st.checkbox(f"show visulaisation for {file.name}"):
-            st.bar_chart(df.select_dtypes(include="number").iloc)
+            st.bar_chart(df.select_dtypes(include="number").iloc[:,:2])
 
         
-        if st.checkbox(f"🛠️ Clean data for {file.name}"):
-            col1, col2 = st.columns(2)  
+        # if st.checkbox(f"🛠️ Clean data for {file.name}"):
+        #     col1, col2 = st.columns(2)  
 
             
-            # Handling Missing Values here
-            with col2:
-                if st.button(f"📌 Fill Missing Values for {file.name}"):
-                    numeric_cols = df.select_dtypes(include=['number']).columns
-                    df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
-                    st.success("✅ Missing values filled!")
-                    st.dataframe(df.head())
+        #     # Handling Missing Values here
+        #     with col2:
+        #         if st.button(f"📌 Fill Missing Values for {file.name}"):
+        #             numeric_cols = df.select_dtypes(include=['number']).columns
+        #             df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
+        #             st.success("✅ Missing values filled!")
+        #             st.dataframe(df.head())
